@@ -9,7 +9,12 @@ This website is intended to be a notebook gathering ideas connected with statist
 * Some intra-day data might be missing (Internet problems, blackouts etc.)
 * Some periods are missing (no data for whole day for none of the instruments)
 
-It is not a goal of the website to present downloading and preprocessing. On this blog, I will scratch my head about features coming from the data that has already been downloaded, stored and initially preprocessed for further analysis.
+Obviously the goal of this journey among training myself in python, statistics and potentially - Machine Learning, is to use conclusions of the analysis in trading. 
+Few working assumptions made *a priori*:
+* trading should be fully automated
+* holding period is never longer than one day (cash position at the end of the day) - daytrading
+
+> Note: It is not a goal of the website to present downloading and preprocessing. On this blog, I will scratch my head about features coming from the data that has already been downloaded, stored and initially preprocessed for further analysis.
 
 
 This website is powered by **[fastpages](https://github.com/fastai/fastpages)**
