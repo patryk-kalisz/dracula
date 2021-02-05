@@ -16,8 +16,8 @@ title: "Resources"
 
 ### Trading 
 * [DeepLOB: Deep Convolutional Neural Networksfor Limit Order Books](https://arxiv.org/pdf/1808.03668.pdf)
-
+* [Blackarbs LLC](http://www.blackarbs.com/)
 
 ## Other
 * [Sergey Malchevskiy](https://medium.com/@sermal)
-* [Blackarbs LLC](http://www.blackarbs.com/)
+
