@@ -18,4 +18,6 @@ title: "Resources"
 *[DeepLOB: Deep Convolutional Neural Networksfor Limit Order Books](https://arxiv.org/pdf/1808.03668.pdf)
 
 
-## Useful, utils
+## Other
+*[Sergey Malchevskiy](https://medium.com/@sermal)
+*[Blackarbs LLC](http://www.blackarbs.com/)
