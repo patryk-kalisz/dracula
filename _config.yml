@@ -117,5 +117,6 @@ kramdown:
 
 # to limit size of xml as it can grow quite large.
 feed:
+  disable: true
   posts_limit: 5 #default posts_limit: 10
   excerpt_only: true
