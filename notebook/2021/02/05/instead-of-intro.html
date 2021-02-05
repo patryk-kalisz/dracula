@@ -106,7 +106,7 @@ window.onload = wrap_img;
         
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let’s start with some interesting data. The data that has already been downloaded, stored and preprocessed to the form that can be a starting point of further analysis. I selected latest available day for one instrument.</p>
+<p>Let’s start with some interesting data. The data that has already been downloaded, stored and preprocessed to the form that can be a starting point for further analysis. I selected latest available day for one instrument.</p>
 <p>Ladies and gentlemen, let me introduce you to below numpy arrays:</p>
 <ul>
 <li><code>price_matrix</code> </li>
@@ -115,8 +115,8 @@ window.onload = wrap_img;
 <li><code>tradebook</code></li>
 <li><code>time</code></li>
 </ul>
-<p>The first glance - shapes and datatypes. Not a surprise - <code>time</code> is a vector of <code>numpy.datetime64</code>, rest are matrices containing <code>floats</code>. In fact counts and volumes in orderbook might be stored as <code>int</code> but same format might be convinient in the future.</p>
-<p>It's worth mentioning that one dimension in each array is the same and reflects count of timestamps for the particular day. Another observation is that all arrays could be stored as one matrix or <code>pandas.DataFrame</code> as maximum <code>numpy.ndim</code> (after reducing redundant dim) is equal to 2. It's not done for a reason that will become clear when another features will be calculated from abovementioned components.</p>
+<p>The first glance - shapes and datatypes. Not a surprise - <code>time</code> is a vector of <code>numpy.datetime64</code>, remaining matrices contain <code>floats</code>. In fact counts - for sure - and volumes - in most circumstances - in orderbook might be stored as <code>int</code> but same format might be convinient in the future.</p>
+<p>It's worth mentioning that one dimension in each array is the same and reflects count of timestamps for the particular day. Another observation is that all arrays could be stored as one matrix or <code>pandas.DataFrame</code> as maximum <code>numpy.ndim</code> (after reducing redundant dimension) is equal to 2. It's not done for a reason that will become clear when doing feature engineering.</p>
 
 </div>
 </div>
@@ -163,9 +163,9 @@ float64 float64 float64 float64 datetime64[us]
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-lot-of-data!">A lot of data!<a class="anchor-link" href="#A-lot-of-data!"> </a></h2><p>I guess it might be right place to explain motivations behind why I even bother to analyze order book, not omnipresent OHLCV data.</p>
-<p>OHLCV or Open, High, Low, Close, Volume are aggregates that could be derived from <code>tradebook</code> array connected with <code>time</code> vector. So let's see what's inside chunk of <code>tradebook</code>.</p>
-<p>Colums of the array mean:</p>
+<h2 id="A-lot-of-data!">A lot of data!<a class="anchor-link" href="#A-lot-of-data!"> </a></h2><p>I guess it might be a right place to explain motivations behind why I even bother to analyze order book, not omnipresent OHLCV data.</p>
+<p>OHLCV or Open, High, Low, Close, Volume are aggregates that could be derived from <code>tradebook</code> array connected with <code>time</code> vector. So let's see what's inside a chunk of <code>tradebook</code>.</p>
+<p>Columns of the array store:</p>
 <ol>
 <li>price of the transaction - self explanatory</li>
 <li>volume traded</li>
@@ -232,11 +232,12 @@ The last part is something I deducted preprocessing the data. It hasn't been wri
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Collected-data">Collected data<a class="anchor-link" href="#Collected-data"> </a></h3><p>Hmmm, tradebook array is not very populated, is it? This is a good time to explain what I actually collect, and what is stored in places occupied by zeros?</p>
-<p>Live downloading of the data gathers literally every change in the limit order book with the timestamp when the event has happened. There might be lots of events happenning (while OHLCV gathers only one specific - Trades). Example of events that happen every day for tens of thousands times on one instruments (apart obvious Trades):</p>
+<p>Live downloading of the data gathers literally every change in the limit order book up to 5th level with the timestamp when the event has happened. There might be lots of events happenning (while OHLCV gathers only one specific - Trades). Example of events that happen every day for tens of thousands times on one instruments (apart obvious Trades):</p>
 <ol>
 <li>Some investor input new limit order to buy no higher than <code>1939.0</code> of <code>3</code> pieces of observed instrument. That event changes <code>count_matrix</code> adding <code>+=1</code>, <code>volume_matrix</code> is <code>+=3</code> on the same place where <code>1939.0</code> price is in the limit orderbook.</li>
 <li>Another investor that already had an order placed as buy limit of <code>5</code> pieces for no more than <code>1938.0</code> decides that they'll shift the order lower, as bigger drop in the price is expected. Then they modifies existing order not changing volume but only price to <code>1937.0</code>. This deducts <code>-=5</code> on the <code>volume_matrix</code>, <code>-=1</code> on <code>count_matrix</code> in place where price <code>1938.0</code> is and at the same time adds those values one level lower.</li>
-<li>Cancelation of order</li>
+<li>Cancelation of order
+Counting of not zero rows as percentago of all rows:</li>
 </ol>
 
 </div>
@@ -277,11 +278,11 @@ The last part is something I deducted preprocessing the data. It hasn't been wri
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Tradebook stands only for a fraction of events that happen every day!</strong></p>
 <p>Of course, it might be the case that trades prices &amp; volumes are the most important information for - let's say it for the first time - <em>prediction of the future prices</em>. But wouldn't it be also important to add some deeper layers of understanding what is going on everyday on the stock exchange?</p>
-<p>For instance, taking the above chunk of tradebook one might ask - who initiated the trade? I mean, one side of the transaction was (probably) on the limit order book and the second executed the marked order clearing the existing limit order. So who executed market order clearing the other side? Placing market order by the investor is suggesting something about their expectations of the future prices, isn't it?</p>
-<p>On top of that, what if we could detect investors ever-shifting the orders, so ones that clearly don't have intention to trade within current price range, but are present in the order book anyway? We're not able to identify intentions of individual investors that have orders opened with assumed no will to perform actual transactions, but maybe there is some pattern order book moves?</p>
+<p>For instance, taking the above chunk of tradebook one might ask - who initiated the trade? I mean, one side of the transaction was - in the most typical situation - on the limit order book and the second executed the market order clearing the existing limit order. So who executed market order clearing limit order on the other side? Placing market order by the investor is suggesting something about their expectations of the future prices, isn't it?</p>
+<p>On top of that, what if we could detect investors ever-shifting their orders, so ones that clearly don't have intention to trade within current price range, but are present in the order book nevertheless? We're not able to identify intentions of individual investors that have orders opened with assumed no will to perform actual transactions, but maybe this is actually saying something about the most probable direction of the market?</p>
 <p>On most stock exchanges there is possibility to hide total value of your order allowing others to see just a tip of an iceberg. What if we could find out where these <em>shy</em> investors are?</p>
 <p>Let's move on to the data collected. 
-Gathering literally every event allowes to simply count events. Results of this simple excersise tells something on its own. Below there is 5 minutes rolling count of events across one day. Not surprisingly - the beginning and the end of the session are places with most order book activity. Looks similar to the distribution of volumes traded during the day.</p>
+Gathering literally every event allows to simply count events, regardless what has changed. Results of this simple excersise tells something on its own. Below there is 5 minutes rolling count of events across one day. Not surprisingly - the beginning and the end of the session are places with most order book activity. It looks similar to the distribution of volumes traded during the day.</p>
 
 </div>
 </div>
