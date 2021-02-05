@@ -6,11 +6,11 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: fastpages
+title: The Dracula Project
 description: An easy to use blogging platform with support for Jupyter Notebooks.
 github_username: patryk-kalisz
 # you can comment the below line out if your repo name is not different than your baseurl
-github_repo: "testfastpages"
+github_repo: "dracula"
 
 # OPTIONAL: override baseurl and url if using a custom domain
 # Note: leave out the trailing / from this value. 
@@ -34,13 +34,12 @@ url: "https://patryk-kalisz.github.io" # the base hostname & protocol for your s
 #
 # 3. You must replace the parameter `baseurl` in _action_files/settings.ini with the same value as you set here but WITHOUT QUOTES.
 #
-baseurl: "/testfastpages" # the subpath of your site, e.g. "/blog".
+baseurl: "/dracula" # the subpath of your site, e.g. "/blog".
 
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: fastdotai
-    github: fastai
+    github: patryk-kalisz
 
 # Set this to true to get LaTeX math equation support
 use_math: 
@@ -72,8 +71,8 @@ include:
 # This specifies what badges are turned on by default for notebook posts.
 default_badges:
   github: true
-  binder: true
-  colab: true
+  binder: false
+  colab: false
 
 # Escape HTML in post descriptions
 html_escape:
