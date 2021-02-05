@@ -12,9 +12,6 @@ This website is intended to be a notebook gathering ideas connected with statist
 It is not a goal of the website to present downloading and preprocessing. On this blog, I will scratch my head about features coming from the data that has already been downloaded, stored and initially preprocessed for further analysis.
 
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+This website is powered by **[fastpages](https://github.com/fastai/fastpages)**
+
 Icons by **[svgrepo.com](https://www.svgrepo.com/)** 
-
-
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
