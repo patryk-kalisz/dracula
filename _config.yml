@@ -82,11 +82,11 @@ html_escape:
 future: true
 theme: minima
 plugins:
-  - jekyll-feed
+  #- jekyll-feed
   - jekyll-gist
   - jekyll-octicons
   - jekyll-toc
-  - jekyll-twitter-plugin
+  #- jekyll-twitter-plugin
   - jekyll-relative-links
   - jekyll-seo-tag
   - jekyll-remote-theme
