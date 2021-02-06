@@ -17,6 +17,7 @@ title: "Resources"
 ### Trading 
 * [DeepLOB: Deep Convolutional Neural Networksfor Limit Order Books](https://arxiv.org/pdf/1808.03668.pdf)
 * [Blackarbs LLC](http://www.blackarbs.com/)
+* [Deep Reinforcement Learningfor Active High Frequency Trading](https://arxiv.org/pdf/2101.07107.pdf)
 
 ## Other
 * [Sergey Malchevskiy](https://medium.com/@sermal)
